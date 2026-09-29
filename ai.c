@@ -867,7 +867,7 @@ void menu()
     printf(" 9. Process Emergency\n");
     printf("10. Find Shortest Route\n");
     printf("11. Compare Routes\n");
-    printf("12. AI Travel-Time Prediction\n");
+    printf("12. AI Travel Time Prediction\n");
     printf("13. Save Project Data\n");
     printf("14. Load Demonstration Data\n");
     printf("15. Exit\n");
