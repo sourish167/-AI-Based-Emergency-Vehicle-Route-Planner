@@ -125,16 +125,9 @@ void routePlanner();
 void compareRoutes();
 void processEmergency();
 
-void trainAI(float *b0,
-             float *b1,
-             float *b2,
-             float *b3,
-             float *b4);
+void trainAI(float *b0,float *b1,float *b2,float *b3, float *b4);
 
-float predictTime(float distance,
-                  float traffic,
-                  float condition,
-                  float timeOfDay);
+float predictTime(float distance, float traffic,float condition,float timeOfDay);
 
 void aiTravelPrediction();
 void saveProject();
@@ -222,7 +215,7 @@ void addLocation()
 void showLocations()
 {
     int i;
-    printf("\n========== LOCATIONS ==========\n");
+    printf("\n LOCATIONS \n");
 
     if (placeCount == 0)
     {
@@ -232,10 +225,7 @@ void showLocations()
 
     for (i = 0; i < placeCount; i++)
     {
-        printf("[%d] %-25s | %s\n",
-               places[i].id,
-               places[i].name,
-               places[i].type);
+        printf("[%d] %-25s | %s\n", places[i].id, places[i].name,places[i].type);
     }
 }
 
@@ -264,11 +254,7 @@ void addRoad()
     printf("Enter destination location ID: ");
     scanf("%d", &to);
 
-    if (from < 0 ||
-        from >= placeCount ||
-        to < 0 ||
-        to >= placeCount ||
-        from == to)
+    if (from < 0 ||from >= placeCount ||to < 0 || to >= placeCount ||from == to)
     {
         printf("\nInvalid location selection.\n");
         return;
@@ -294,9 +280,7 @@ void addRoad()
     printf("Select road condition: ");
     scanf("%d", &condition);
 
-    if (traffic < 1 || traffic > 4 ||
-        condition < 1 || condition > 3 ||
-        distance <= 0)
+    if (traffic < 1 || traffic > 4 ||condition < 1 || condition > 3 ||distance <= 0)
     {
         printf("\nInvalid road information.\n");
         return;
@@ -345,11 +329,9 @@ void addRoad()
 
     printf("\nRoad successfully added.\n");
     printf("Physical distance : %.2f km\n", distance);
-    printf("Traffic factor    : %.2f\n",
-           trafficMultiplier(traffic));
-    printf("Condition factor  : %.2f\n",
-           conditionMultiplier(condition));
-    printf("Route cost        : %.2f\n", cost);
+    printf("Traffic factor    : %.2f\n",trafficMultiplier(traffic));
+    printf("Condition factor  : %.2f\n",conditionMultiplier(condition));
+    printf("Route cost   : %.2f\n", cost);
 }
 
 void showRoadNetwork()
@@ -358,7 +340,7 @@ void showRoadNetwork()
 
     Road *road;
 
-    printf("\n========== ROAD NETWORK ==========\n");
+    printf("\n ROAD NETWORK \n");
 
     for (i = 0; i < placeCount; i++)
     {
@@ -375,12 +357,7 @@ void showRoadNetwork()
         while (road != NULL)
         {
             printf("  -> %s | %.1f km | traffic %d | condition %d | cost %.2f\n",
-                   places[road->to].name,
-                   road->distance,
-                   road->traffic,
-                   road->condition,
-                   road->cost);
-
+                   places[road->to].name, road->distance, road->traffic, road->condition, road->cost);
             road = road->next;
         }
     }
@@ -435,7 +412,7 @@ void showVehicles()
 {
     int i;
 
-    printf("\n========== EMERGENCY VEHICLES ==========\n");
+    printf("\n EMERGENCY VEHICLES \n");
 
     if (vehicleCount == 0)
     {
@@ -449,10 +426,7 @@ void showVehicles()
         printf("\nType     : %s", fleet[i].type);
         printf("\nLocation : %s",
                places[fleet[i].location].name);
-        printf("\nStatus   : %s\n",
-               fleet[i].available
-               ? "Available"
-               : "Busy");
+        printf("\nStatus   : %s\n", fleet[i].available ? "Available" : "Busy");
     }
 }
 
@@ -484,10 +458,7 @@ void createEmergency()
     printf("Enter destination ID: ");
     scanf("%d", &e->destination);
 
-    if (e->source < 0 ||
-        e->source >= placeCount ||
-        e->destination < 0 ||
-        e->destination >= placeCount)
+    if (e->source < 0 ||e->source >= placeCount ||e->destination < 0 ||e->destination >= placeCount)
     {
         printf("\nInvalid location.\n");
         return;
@@ -517,7 +488,7 @@ void showEmergencies()
 {
     int i;
 
-    printf("\n========== ACTIVE EMERGENCIES ==========\n");
+    printf("\n ACTIVE EMERGENCIES \n");
 
     if (requestCount == 0)
     {
@@ -547,8 +518,7 @@ void heapInitialize(MinHeap *heap)
     heap->size = 0;
 }
 
-void swapHeap(HeapItem *a,
-              HeapItem *b)
+void swapHeap(HeapItem *a,HeapItem *b)
 {
     HeapItem temp = *a;
 
@@ -557,8 +527,7 @@ void swapHeap(HeapItem *a,
 }
 
 
-void heapUp(MinHeap *heap,
-            int index)
+void heapUp(MinHeap *heap,int index)
 {
     int parent;
 
@@ -566,12 +535,10 @@ void heapUp(MinHeap *heap,
     {
         parent = (index - 1) / 2;
 
-        if (heap->data[parent].value <=
-            heap->data[index].value)
+        if (heap->data[parent].value <=heap->data[index].value)
             break;
 
-        swapHeap(&heap->data[parent],
-                 &heap->data[index]);
+        swapHeap(&heap->data[parent], &heap->data[index]);
 
         index = parent;
     }
@@ -591,9 +558,7 @@ void heapDown(MinHeap *heap,int index)
 
         smallest = index;
 
-        if (left < heap->size &&
-            heap->data[left].value <
-            heap->data[smallest].value)
+        if (left < heap->size &&heap->data[left].value <heap->data[smallest].value)
         {
             smallest = left;
         }
@@ -645,8 +610,7 @@ HeapItem heapRemove(MinHeap *heap)
 
     if (heap->size > 0)
     {
-        heap->data[0] =
-            heap->data[heap->size];
+        heap->data[0] = heap->data[heap->size];
 
         heapDown(heap, 0);
     }
@@ -692,54 +656,32 @@ void shortestRoute(int source,int destination)
         parent[i] = -1;
         visited[i] = 0;
     }
-
-
     heapInitialize(&heap);
-
     distance[source] = 0;
-
     heapInsert(&heap,source,0);
-
     while (heap.size > 0)
     {
         item = heapRemove(&heap);
-
         if (item.node == -1)
             break;
-
         if (visited[item.node])
             continue;
-
         visited[item.node] = 1;
-
         if (item.node == destination)
             break;
-
         road = network[item.node];
-
         while (road != NULL)
         {
-            alternative =
-                distance[item.node] +
-                road->cost;
+            alternative = distance[item.node] +road->cost;
 
-            if (!visited[road->to] &&
-                alternative <
-                distance[road->to])
+            if (!visited[road->to] && alternative < distance[road->to])
             {
-                distance[road->to] =
-                    alternative;
+                distance[road->to] = alternative;
 
-                parent[road->to] =
-                    item.node;
+                parent[road->to] = item.node;
 
-                heapInsert(
-                    &heap,
-                    road->to,
-                    alternative
-                );
+                heapInsert( &heap, road->to, alternative );
             }
-
             road = road->next;
         }
     }
@@ -752,15 +694,13 @@ void shortestRoute(int source,int destination)
     }
 
 
-    printf("\n========== ROUTE ANALYSIS ==========\n");
+    printf("\nROUTE ANALYSIS \n");
 
     printf("\nSelected route:\n");
 
-    printRoute(parent,
-               destination);
+    printRoute(parent, destination);
 
-    printf("\n\nTraffic-adjusted route cost: %.2f\n",
-           distance[destination]);
+    printf("\n\nTraffic-adjusted route cost: %.2f\n", distance[destination]);
 }
 
 void routePlanner()
@@ -776,10 +716,7 @@ void routePlanner()
     printf("Destination location ID: ");
     scanf("%d", &destination);
 
-    if (source < 0 ||
-        source >= placeCount ||
-        destination < 0 ||
-        destination >= placeCount)
+    if (source < 0 ||source >= placeCount || destination < 0 || destination >= placeCount)
     {
         printf("\nInvalid location.\n");
         return;
@@ -792,47 +729,29 @@ void compareRoutes()
 {
     int source;
     int destination;
-
     Road *road;
-
     int found = 0;
-
     showLocations();
-
     printf("\nSource ID: ");
     scanf("%d", &source);
-
     printf("Destination ID: ");
     scanf("%d", &destination);
-
-    if (source < 0 ||
-        source >= placeCount ||
-        destination < 0 ||
-        destination >= placeCount)
+    if (source < 0 ||source >= placeCount ||destination < 0 || destination >= placeCount)
     {
         printf("\nInvalid location.\n");
         return;
     }
-
-
-    printf("\n========== AVAILABLE DIRECT OPTIONS ==========\n");
-
+    printf("\n AVAILABLE DIRECT OPTIONS \n");
     road = network[source];
-
     while (road != NULL)
     {
         if (road->to == destination)
         {
             printf("\nDirect road found.");
-            printf("\nDistance : %.2f km",
-                   road->distance);
-            printf("\nTraffic  : %d",
-                   road->traffic);
-            printf("\nCondition: %d",
-                   road->condition);
-            printf("\nCost     : %.2f\n",
-                   road->cost);
-
+            printf("\nDistance : %.2f km", road->distance);
+            printf("\nTraffic  : %d",road->traffic);
+            printf("\nCondition: %d", road->condition);
+            printf("\nCost     : %.2f\n",road->cost);
             found = 1;
         }
 
@@ -846,81 +765,45 @@ void compareRoutes()
     }
 
 
-    printf("\n\n========== NETWORK OPTIMIZED ROUTE ==========\n");
+    printf("\n NETWORK OPTIMIZED ROUTE \n");
 
-    shortestRoute(source,
-                  destination);
+    shortestRoute(source, destination);
 }
 
 void processEmergency()
 {
     int selected = -1;
-
     int bestPriority = 999;
-
     int i;
-
     if (requestCount == 0)
     {
         printf("\nNo emergency requests waiting.\n");
         return;
     }
 
-
     for (i = 0; i < requestCount; i++)
     {
-        if (requests[i].priority <
-            bestPriority)
+        if (requests[i].priority <bestPriority)
         {
-            bestPriority =
-                requests[i].priority;
-
+            bestPriority =requests[i].priority;
             selected = i;
         }
     }
-
-
-    printf("\n============================================\n");
     printf("          EMERGENCY DISPATCH\n");
-    printf("============================================\n");
-
-    printf("\nRequest ID : %d",
-           requests[selected].id);
-
-    printf("\nVehicle ID : %d",
-           requests[selected].vehicleId);
-
-    printf("\nPriority   : %d",
-           requests[selected].priority);
-
-    printf("\nSource     : %s",
-           places[requests[selected].source].name);
-
-    printf("\nDestination: %s\n",
-           places[requests[selected].destination].name);
-
-
+    printf("\nRequest ID : %d", requests[selected].id);
+    printf("\nVehicle ID : %d", requests[selected].vehicleId);
+    printf("\nPriority   : %d",requests[selected].priority);
+    printf("\nSource     : %s", places[requests[selected].source].name);
+    printf("\nDestination: %s\n", places[requests[selected].destination].name);
     printf("\nFinding traffic-aware route...\n");
-
-    shortestRoute(
-        requests[selected].source,
-        requests[selected].destination
-    );
-
+    shortestRoute(requests[selected].source, requests[selected].destination);
     for (i = selected;i < requestCount - 1;i++)
     {
-        requests[i] =
-            requests[i + 1];
+        requests[i] =requests[i + 1];
     }
-
     requestCount--;
-
     printf("\nEmergency dispatched successfully.\n");
 }
-
-
-
-
 void trainAI(float *b0,float *b1,float *b2,float *b3,float *b4)
 {
     float w0 = 0;
@@ -928,56 +811,34 @@ void trainAI(float *b0,float *b1,float *b2,float *b3,float *b4)
     float w2 = 2.0;
     float w3 = 1.0;
     float w4 = 1.0;
-
     float learningRate = 0.0001;
-
-    int epoch;
+    int j;
     int i;
-
     float prediction;
     float error;
-
-
-    for (epoch = 0; epoch < 15000; epoch++)
+    for (j = 0; j < 15000; j++)
     {
         float g0 = 0;
         float g1 = 0;
         float g2 = 0;
         float g3 = 0;
         float g4 = 0;
-
-
         for (i = 0; i < trainingCount; i++)
         {
-            prediction =
-                w0 +
-                w1 * trainDistance[i] +
-                w2 * trainTraffic[i] +
-                w3 * trainCondition[i] +
-                w4 * trainTimeOfDay[i];
-
-
-            error =
-                prediction -
-                trainTravelTime[i];
-
-
+            prediction = w0 +  w1 * trainDistance[i] + w2 * trainTraffic[i] + w3 * trainCondition[i] + w4 * trainTimeOfDay[i];
+            error = prediction -trainTravelTime[i];
             g0 += error;
             g1 += error * trainDistance[i];
             g2 += error * trainTraffic[i];
             g3 += error * trainCondition[i];
             g4 += error * trainTimeOfDay[i];
         }
-
-
         w0 -= learningRate * g0;
         w1 -= learningRate * g1;
         w2 -= learningRate * g2;
         w3 -= learningRate * g3;
         w4 -= learningRate * g4;
     }
-
-
     *b0 = w0;
     *b1 = w1;
     *b2 = w2;
@@ -992,21 +853,8 @@ float predictTime(float distance,float traffic,float condition,float timeOfDay)
     float b2;
     float b3;
     float b4;
-
-    trainAI(
-        &b0,
-        &b1,
-        &b2,
-        &b3,
-        &b4
-    );
-
-
-    return b0 +
-           b1 * distance +
-           b2 * traffic +
-           b3 * condition +
-           b4 * timeOfDay;
+    trainAI( &b0,&b1, &b2, &b3, &b4);
+    return b0 + b1 * distance + b2 * traffic + b3 * condition +b4 * timeOfDay;
 }
 
 void aiTravelPrediction()
@@ -1015,15 +863,10 @@ void aiTravelPrediction()
     float traffic;
     float condition;
     float timeOfDay;
-
     float result;
-
-
-    printf("\n========== AI TRAVEL-TIME PREDICTION ==========\n");
-
+    printf("\n AI TRAVEL-TIME PREDICTION \n");
     printf("\nDistance in kilometres: ");
     scanf("%f", &distance);
-
     printf("\nTraffic level");
     printf("\n1 - Low");
     printf("\n2 - Moderate");
@@ -1031,109 +874,60 @@ void aiTravelPrediction()
     printf("\n4 - Severe");
     printf("\nSelect: ");
     scanf("%f", &traffic);
-
-
     printf("\nRoad condition");
     printf("\n1 - Good");
     printf("\n2 - Average");
     printf("\n3 - Poor");
     printf("\nSelect: ");
     scanf("%f", &condition);
-
-
     printf("\nTime of day");
     printf("\n1 - Normal");
     printf("\n2 - Busy");
     printf("\n3 - Peak");
     printf("\nSelect: ");
     scanf("%f", &timeOfDay);
-
-
-    if (distance <= 0 ||
-        traffic < 1 || traffic > 4 ||
-        condition < 1 || condition > 3 ||
-        timeOfDay < 1 || timeOfDay > 3)
+    if (distance <= 0 || traffic < 1 || traffic > 4 || condition < 1 || condition > 3 ||timeOfDay < 1 || timeOfDay > 3)
     {
         printf("\nInvalid prediction inputs.\n");
         return;
     }
-
-
     result = predictTime(distance,traffic,condition,timeOfDay);
-
     if (result < 0)
         result = 0;
-
-
     printf("\nAI prediction result:");
-    printf("\nEstimated travel time: %.2f minutes\n",
-           result);
+    printf("\nEstimated travel time: %.2f minutes\n", result);
 }
-
 void saveProject()
 {
     FILE *file;
-
     int i;
-
     file = fopen("emergency_project_data.txt","w");
-
     if (file == NULL)
     {
         printf("\nUnable to create data file.\n");
         return;
     }
-
-
     fprintf(file,"EMERGENCY ROUTE PLANNER\n");
-
     fprintf(file,"Locations=%d\n",placeCount);
-
     for (i = 0; i < placeCount; i++)
     {
-        fprintf(file,
-                "%d|%s|%s\n",
-                places[i].id,
-                places[i].name,
-                places[i].type);
+        fprintf(file, "%d|%s|%s\n",places[i].id, places[i].name, places[i].type);
     }
 
 
-    fprintf(file,
-            "Vehicles=%d\n",
-            vehicleCount);
+    fprintf(file, "Vehicles=%d\n",  vehicleCount);
 
 
     for (i = 0; i < vehicleCount; i++)
     {
-        fprintf(file,
-                "%d|%s|%d|%d\n",
-                fleet[i].id,
-                fleet[i].type,
-                fleet[i].location,
-                fleet[i].available);
+        fprintf(file,"%d|%s|%d|%d\n", fleet[i].id, fleet[i].type, fleet[i].location, fleet[i].available);
     }
-
-
-    fprintf(file,
-            "Emergencies=%d\n",
-            requestCount);
-
-
+    fprintf(file,"Emergencies=%d\n",  requestCount);
     for (i = 0; i < requestCount; i++)
     {
-        fprintf(file,
-                "%d|%d|%d|%d|%d\n",
-                requests[i].id,
-                requests[i].vehicleId,
-                requests[i].source,
-                requests[i].destination,
-                requests[i].priority);
+        fprintf(file, "%d|%d|%d|%d|%d\n", requests[i].id,requests[i].vehicleId, requests[i].source, requests[i].destination, requests[i].priority);
     }
-
-
     fclose(file);
-
     printf("\nProject information saved successfully.\n");
 }
 
@@ -1142,393 +936,210 @@ void loadDemoData()
     placeCount = 0;
     vehicleCount = 0;
     requestCount = 0;
-
     initializeSystem();
-
-
-    strcpy(places[0].name,
-           "Central Junction");
-
-    strcpy(places[0].type,
-           "Junction");
-
-
-    strcpy(places[1].name,
-           "City Hospital");
-
-    strcpy(places[1].type,
-           "Hospital");
-
-
-    strcpy(places[2].name,
-           "Fire Station");
-
-    strcpy(places[2].type,
-           "Fire Station");
-
-
-    strcpy(places[3].name,
-           "Market Area");
-
-    strcpy(places[3].type,
-           "Junction");
-
-
-    strcpy(places[4].name,
-           "Railway Station");
-
-    strcpy(places[4].type,
-           "Junction");
-
-
-    strcpy(places[5].name,
-           "Industrial Area");
-
-    strcpy(places[5].type,
-           "Emergency Area");
-
-
+    strcpy(places[0].name,"Central Junction");
+    strcpy(places[0].type,"Junction");
+    strcpy(places[1].name,"City Hospital");
+    strcpy(places[1].type,"Hospital");
+    strcpy(places[2].name,"Fire Station");
+    strcpy(places[2].type,"Fire Station");
+    strcpy(places[3].name,"Market Area");
+    strcpy(places[3].type,"Junction");
+    strcpy(places[4].name, "Railway Station");
+    strcpy(places[4].type,"Junction");
+    strcpy(places[5].name, "Industrial Area");
+    strcpy(places[5].type, "Emergency Area");
     placeCount = 6;
-
-
     int i;
-
     for (i = 0; i < placeCount; i++)
     {
         places[i].id = i;
     }
-
-
-
     Road *r;
-
-
-    
-
     r = malloc(sizeof(Road));
-
     r->to = 1;
     r->distance = 5;
     r->traffic = 2;
     r->condition = 1;
-
-    r->cost =
-        r->distance *
-        trafficMultiplier(r->traffic) *
-        conditionMultiplier(r->condition);
-
+    r->cost =r->distance * trafficMultiplier(r->traffic) * conditionMultiplier(r->condition);
     r->next = network[0];
     network[0] = r;
-
-
     r = malloc(sizeof(Road));
-
     r->to = 0;
     r->distance = 5;
     r->traffic = 2;
     r->condition = 1;
-
-    r->cost =
-        r->distance *
-        trafficMultiplier(r->traffic) *
-        conditionMultiplier(r->condition);
-
+    r->cost = r->distance * trafficMultiplier(r->traffic) * conditionMultiplier(r->condition);
     r->next = network[1];
     network[1] = r;
-
-
-  
-
     r = malloc(sizeof(Road));
-
     r->to = 2;
     r->distance = 4;
     r->traffic = 1;
     r->condition = 1;
-
-    r->cost =
-        r->distance *
-        trafficMultiplier(r->traffic) *
-        conditionMultiplier(r->condition);
-
+    r->cost = r->distance * trafficMultiplier(r->traffic) * conditionMultiplier(r->condition);
     r->next = network[0];
     network[0] = r;
-
-
     r = malloc(sizeof(Road));
-
     r->to = 0;
     r->distance = 4;
     r->traffic = 1;
     r->condition = 1;
-
-    r->cost =
-        r->distance *
-        trafficMultiplier(r->traffic) *
-        conditionMultiplier(r->condition);
-
+    r->cost = r->distance *trafficMultiplier(r->traffic) *conditionMultiplier(r->condition);
     r->next = network[2];
     network[2] = r;
-  
     r = malloc(sizeof(Road));
-
     r->to = 3;
     r->distance = 3;
     r->traffic = 3;
     r->condition = 1;
-
-    r->cost =
-        r->distance *
-        trafficMultiplier(r->traffic) *
-        conditionMultiplier(r->condition);
-
+    r->cost =r->distance * trafficMultiplier(r->traffic) *conditionMultiplier(r->condition);
     r->next = network[1];
     network[1] = r;
-
-
     r = malloc(sizeof(Road));
-
     r->to = 1;
     r->distance = 3;
     r->traffic = 3;
     r->condition = 1;
-
-    r->cost =
-        r->distance *
-        trafficMultiplier(r->traffic) *
-        conditionMultiplier(r->condition);
-
+    r->cost =r->distance * trafficMultiplier(r->traffic) *conditionMultiplier(r->condition);
     r->next = network[3];
     network[3] = r;
-
     r = malloc(sizeof(Road));
-
     r->to = 4;
     r->distance = 6;
     r->traffic = 2;
     r->condition = 2;
-
-    r->cost =
-        r->distance *
-        trafficMultiplier(r->traffic) *
-        conditionMultiplier(r->condition);
-
+    r->cost = r->distance * trafficMultiplier(r->traffic) * conditionMultiplier(r->condition);
     r->next = network[2];
     network[2] = r;
-
-
     r = malloc(sizeof(Road));
-
     r->to = 2;
     r->distance = 6;
     r->traffic = 2;
     r->condition = 2;
-
-    r->cost =
-        r->distance *
-        trafficMultiplier(r->traffic) *
-        conditionMultiplier(r->condition);
-
+    r->cost = r->distance *trafficMultiplier(r->traffic) *conditionMultiplier(r->condition);
     r->next = network[4];
     network[4] = r;
-
-
     r = malloc(sizeof(Road));
-
     r->to = 5;
     r->distance = 5;
     r->traffic = 2;
     r->condition = 1;
-
-    r->cost =
-        r->distance *
-        trafficMultiplier(r->traffic) *
-        conditionMultiplier(r->condition);
-
+    r->cost = r->distance * trafficMultiplier(r->traffic) * conditionMultiplier(r->condition);
     r->next = network[3];
     network[3] = r;
-
-
     r = malloc(sizeof(Road));
-
     r->to = 3;
     r->distance = 5;
     r->traffic = 2;
     r->condition = 1;
-
-    r->cost =
-        r->distance *
-        trafficMultiplier(r->traffic) *
-        conditionMultiplier(r->condition);
-
+    r->cost = r->distance * trafficMultiplier(r->traffic) * conditionMultiplier(r->condition);
     r->next = network[5];
     network[5] = r;
-
-
-
     r = malloc(sizeof(Road));
-
     r->to = 5;
     r->distance = 4;
     r->traffic = 4;
     r->condition = 2;
-
-    r->cost =
-        r->distance *
-        trafficMultiplier(r->traffic) *
-        conditionMultiplier(r->condition);
-
+    r->cost =r->distance *trafficMultiplier(r->traffic) * conditionMultiplier(r->condition);
     r->next = network[4];
     network[4] = r;
-
-
     r = malloc(sizeof(Road));
-
     r->to = 4;
     r->distance = 4;
     r->traffic = 4;
     r->condition = 2;
-
-    r->cost =
-        r->distance *
-        trafficMultiplier(r->traffic) *
-        conditionMultiplier(r->condition);
-
+    r->cost =r->distance * trafficMultiplier(r->traffic) * conditionMultiplier(r->condition);
     r->next = network[5];
     network[5] = r;
-
-
     fleet[0].id = 101;
-
-    strcpy(fleet[0].type,
-           "Ambulance");
-
+    strcpy(fleet[0].type,"Ambulance");
     fleet[0].location = 0;
-
     fleet[0].available = 1;
-
     vehicleCount = 1;
-
-
     printf("\nDemo network loaded successfully.\n");
 }
 
 void menu()
 {
     printf("\n\n");
-    printf("====================================================\n");
     printf("       AI-BASED EMERGENCY VEHICLE ROUTE PLANNER\n");
-    printf("====================================================\n");
-
     printf(" 1. Add Location\n");
     printf(" 2. View Locations\n");
     printf(" 3. Add Road\n");
     printf(" 4. View Road Network\n");
-
     printf(" 5. Register Emergency Vehicle\n");
     printf(" 6. View Emergency Vehicles\n");
-
     printf(" 7. Create Emergency Request\n");
     printf(" 8. View Emergency Requests\n");
     printf(" 9. Process Emergency\n");
-
     printf("10. Find Shortest Route\n");
     printf("11. Compare Routes\n");
-
     printf("12. AI Travel-Time Prediction\n");
-
     printf("13. Save Project Data\n");
     printf("14. Load Demonstration Data\n");
-
     printf("15. Exit\n");
-
-    printf("====================================================\n");
 }
 
 int main()
 {
     int choice;
-
     initializeSystem();
-
     printf("\n");
-    printf("====================================================\n");
     printf("       EMERGENCY ROUTE PLANNER SYSTEM\n");
-    printf("====================================================\n");
-
     printf("\nC-Based DSA + AI Demonstration Project\n");
-
-
     while (1)
     {
         menu();
-
         printf("\nEnter your choice: ");
         scanf("%d", &choice);
-
-
         switch (choice)
         {
             case 1:
                 addLocation();
                 break;
-
             case 2:
                 showLocations();
                 break;
-
             case 3:
                 addRoad();
                 break;
-
             case 4:
                 showRoadNetwork();
                 break;
-
             case 5:
                 registerVehicle();
                 break;
-
             case 6:
                 showVehicles();
                 break;
-
             case 7:
                 createEmergency();
                 break;
-
             case 8:
                 showEmergencies();
                 break;
-
             case 9:
                 processEmergency();
                 break;
-
             case 10:
                 routePlanner();
                 break;
-
             case 11:
                 compareRoutes();
                 break;
-
             case 12:
                 aiTravelPrediction();
                 break;
-
             case 13:
                 saveProject();
                 break;
-
             case 14:
                 loadDemoData();
                 break;
-
             case 15:
                 printf("\nProject terminated.\n");
                 return 0;
-
             default:
                 printf("\nInvalid choice. Please try again.\n");
         }
