@@ -10,21 +10,12 @@
 #define MAX_HEAP 100
 #define TEXT 50
 
-/* =========================================================
-   LOCATION
-   ========================================================= */
-
 typedef struct
 {
     int id;
     char name[TEXT];
     char type[25];
 } Location;
-
-
-/* =========================================================
-   ROAD EDGE - ADJACENCY LIST
-   ========================================================= */
 
 typedef struct Road
 {
@@ -36,11 +27,6 @@ typedef struct Road
     struct Road *next;
 } Road;
 
-
-/* =========================================================
-   EMERGENCY VEHICLE
-   ========================================================= */
-
 typedef struct
 {
     int id;
@@ -48,11 +34,6 @@ typedef struct
     int location;
     int available;
 } Vehicle;
-
-
-/* =========================================================
-   EMERGENCY REQUEST
-   ========================================================= */
 
 typedef struct
 {
@@ -63,17 +44,11 @@ typedef struct
     int priority;
 } Emergency;
 
-
-/* =========================================================
-   ROUTING HEAP
-   ========================================================= */
-
 typedef struct
 {
     int node;
     float value;
 } HeapItem;
-
 
 typedef struct
 {
@@ -81,32 +56,14 @@ typedef struct
     int size;
 } MinHeap;
 
-
-/* =========================================================
-   GLOBAL DATA
-   ========================================================= */
-
 Location places[MAX_NODES];
 Road *network[MAX_NODES];
-
 Vehicle fleet[MAX_VEHICLES];
-
 Emergency requests[MAX_EMERGENCIES];
 
 int placeCount = 0;
 int vehicleCount = 0;
 int requestCount = 0;
-
-
-/* =========================================================
-   AI TRAINING DATA
-
-   x1 = distance
-   x2 = traffic level
-   x3 = road condition
-   x4 = time of day
-   y  = travel time
-   ========================================================= */
 
 float trainDistance[] =
 {
@@ -145,43 +102,27 @@ float trainTravelTime[] =
 
 int trainingCount = 12;
 
-
-/* =========================================================
-   FUNCTION DECLARATIONS
-   ========================================================= */
-
 void initializeSystem();
-
 void addLocation();
 void showLocations();
-
 void addRoad();
 void showRoadNetwork();
-
 void registerVehicle();
 void showVehicles();
-
 void createEmergency();
 void showEmergencies();
-
 void heapInitialize(MinHeap *heap);
 void heapInsert(MinHeap *heap, int node, float value);
 HeapItem heapRemove(MinHeap *heap);
 void heapUp(MinHeap *heap, int index);
 void heapDown(MinHeap *heap, int index);
 void swapHeap(HeapItem *a, HeapItem *b);
-
 float trafficMultiplier(int level);
 float conditionMultiplier(int condition);
-
 void shortestRoute(int source, int destination);
-
 void printRoute(int parent[], int node);
-
 void routePlanner();
-
 void compareRoutes();
-
 void processEmergency();
 
 void trainAI(float *b0,
@@ -196,17 +137,9 @@ float predictTime(float distance,
                   float timeOfDay);
 
 void aiTravelPrediction();
-
 void saveProject();
-
 void loadDemoData();
-
 void menu();
-
-
-/* =========================================================
-   INITIALIZATION
-   ========================================================= */
 
 void initializeSystem()
 {
@@ -217,11 +150,6 @@ void initializeSystem()
         network[i] = NULL;
     }
 }
-
-
-/* =========================================================
-   TRAFFIC MULTIPLIER
-   ========================================================= */
 
 float trafficMultiplier(int level)
 {
@@ -240,11 +168,6 @@ float trafficMultiplier(int level)
     return 1.0;
 }
 
-
-/* =========================================================
-   ROAD CONDITION MULTIPLIER
-   ========================================================= */
-
 float conditionMultiplier(int condition)
 {
     if (condition == 1)
@@ -258,11 +181,6 @@ float conditionMultiplier(int condition)
 
     return 1.0;
 }
-
-
-/* =========================================================
-   ADD LOCATION
-   ========================================================= */
 
 void addLocation()
 {
@@ -301,15 +219,9 @@ void addLocation()
     placeCount++;
 }
 
-
-/* =========================================================
-   DISPLAY LOCATIONS
-   ========================================================= */
-
 void showLocations()
 {
     int i;
-
     printf("\n========== LOCATIONS ==========\n");
 
     if (placeCount == 0)
@@ -327,21 +239,14 @@ void showLocations()
     }
 }
 
-
-/* =========================================================
-   ADD ROAD
-   ========================================================= */
-
 void addRoad()
 {
     int from;
     int to;
     int traffic;
     int condition;
-
     float distance;
     float cost;
-
     Road *a;
     Road *b;
 
@@ -447,11 +352,6 @@ void addRoad()
     printf("Route cost        : %.2f\n", cost);
 }
 
-
-/* =========================================================
-   DISPLAY ROAD NETWORK
-   ========================================================= */
-
 void showRoadNetwork()
 {
     int i;
@@ -485,11 +385,6 @@ void showRoadNetwork()
         }
     }
 }
-
-
-/* =========================================================
-   REGISTER VEHICLE
-   ========================================================= */
 
 void registerVehicle()
 {
@@ -536,11 +431,6 @@ void registerVehicle()
     vehicleCount++;
 }
 
-
-/* =========================================================
-   DISPLAY VEHICLES
-   ========================================================= */
-
 void showVehicles()
 {
     int i;
@@ -565,11 +455,6 @@ void showVehicles()
                : "Busy");
     }
 }
-
-
-/* =========================================================
-   CREATE EMERGENCY REQUEST
-   ========================================================= */
 
 void createEmergency()
 {
@@ -628,11 +513,6 @@ void createEmergency()
     printf("\nEmergency request recorded.\n");
 }
 
-
-/* =========================================================
-   DISPLAY EMERGENCIES
-   ========================================================= */
-
 void showEmergencies()
 {
     int i;
@@ -662,16 +542,10 @@ void showEmergencies()
     }
 }
 
-
-/* =========================================================
-   HEAP OPERATIONS
-   ========================================================= */
-
 void heapInitialize(MinHeap *heap)
 {
     heap->size = 0;
 }
-
 
 void swapHeap(HeapItem *a,
               HeapItem *b)
@@ -704,8 +578,7 @@ void heapUp(MinHeap *heap,
 }
 
 
-void heapDown(MinHeap *heap,
-              int index)
+void heapDown(MinHeap *heap,int index)
 {
     int left;
     int right;
@@ -743,9 +616,7 @@ void heapDown(MinHeap *heap,
 }
 
 
-void heapInsert(MinHeap *heap,
-                int node,
-                float value)
+void heapInsert(MinHeap *heap,int node,float value)
 {
     if (heap->size >= MAX_HEAP)
         return;
@@ -757,7 +628,6 @@ void heapInsert(MinHeap *heap,
 
     heap->size++;
 }
-
 
 HeapItem heapRemove(MinHeap *heap)
 {
@@ -784,13 +654,7 @@ HeapItem heapRemove(MinHeap *heap)
     return result;
 }
 
-
-/* =========================================================
-   PRINT ROUTE
-   ========================================================= */
-
-void printRoute(int parent[],
-                int node)
+void printRoute(int parent[],int node)
 {
     if (parent[node] == -1)
     {
@@ -804,13 +668,7 @@ void printRoute(int parent[],
            places[node].name);
 }
 
-
-/* =========================================================
-   DIJKSTRA SHORTEST PATH
-   ========================================================= */
-
-void shortestRoute(int source,
-                   int destination)
+void shortestRoute(int source,int destination)
 {
     float distance[MAX_NODES];
 
@@ -828,7 +686,6 @@ void shortestRoute(int source,
 
     float alternative;
 
-
     for (i = 0; i < placeCount; i++)
     {
         distance[i] = FLT_MAX;
@@ -841,10 +698,7 @@ void shortestRoute(int source,
 
     distance[source] = 0;
 
-    heapInsert(&heap,
-               source,
-               0);
-
+    heapInsert(&heap,source,0);
 
     while (heap.size > 0)
     {
@@ -909,11 +763,6 @@ void shortestRoute(int source,
            distance[destination]);
 }
 
-
-/* =========================================================
-   ROUTE PLANNER
-   ========================================================= */
-
 void routePlanner()
 {
     int source;
@@ -936,14 +785,8 @@ void routePlanner()
         return;
     }
 
-    shortestRoute(source,
-                  destination);
+    shortestRoute(source,destination);
 }
-
-
-/* =========================================================
-   ROUTE COMPARISON
-   ========================================================= */
 
 void compareRoutes()
 {
@@ -1009,11 +852,6 @@ void compareRoutes()
                   destination);
 }
 
-
-/* =========================================================
-   PROCESS MOST CRITICAL EMERGENCY
-   ========================================================= */
-
 void processEmergency()
 {
     int selected = -1;
@@ -1069,14 +907,7 @@ void processEmergency()
         requests[selected].destination
     );
 
-
-    /*
-       Remove processed request
-    */
-
-    for (i = selected;
-         i < requestCount - 1;
-         i++)
+    for (i = selected;i < requestCount - 1;i++)
     {
         requests[i] =
             requests[i + 1];
@@ -1088,32 +919,10 @@ void processEmergency()
 }
 
 
-/* =========================================================
-   AI MODEL
 
-   Multiple Linear Regression
 
-   Y = b0 + b1X1 + b2X2 + b3X3 + b4X4
-
-   X1 = distance
-   X2 = traffic
-   X3 = road condition
-   X4 = time of day
-   ========================================================= */
-
-void trainAI(float *b0,
-             float *b1,
-             float *b2,
-             float *b3,
-             float *b4)
+void trainAI(float *b0,float *b1,float *b2,float *b3,float *b4)
 {
-    /*
-       A lightweight iterative fitting approach is used.
-
-       This is intentionally implemented inside C so that
-       the main project does not depend on Python libraries.
-    */
-
     float w0 = 0;
     float w1 = 1.8;
     float w2 = 2.0;
@@ -1176,15 +985,7 @@ void trainAI(float *b0,
     *b4 = w4;
 }
 
-
-/* =========================================================
-   AI PREDICTION
-   ========================================================= */
-
-float predictTime(float distance,
-                  float traffic,
-                  float condition,
-                  float timeOfDay)
+float predictTime(float distance,float traffic,float condition,float timeOfDay)
 {
     float b0;
     float b1;
@@ -1207,11 +1008,6 @@ float predictTime(float distance,
            b3 * condition +
            b4 * timeOfDay;
 }
-
-
-/* =========================================================
-   AI TRAVEL-TIME PREDICTION
-   ========================================================= */
 
 void aiTravelPrediction()
 {
@@ -1263,14 +1059,7 @@ void aiTravelPrediction()
     }
 
 
-    result =
-        predictTime(
-            distance,
-            traffic,
-            condition,
-            timeOfDay
-        );
-
+    result = predictTime(distance,traffic,condition,timeOfDay);
 
     if (result < 0)
         result = 0;
@@ -1281,19 +1070,13 @@ void aiTravelPrediction()
            result);
 }
 
-
-/* =========================================================
-   SAVE PROJECT DATA
-   ========================================================= */
-
 void saveProject()
 {
     FILE *file;
 
     int i;
 
-    file = fopen("emergency_project_data.txt",
-                 "w");
+    file = fopen("emergency_project_data.txt","w");
 
     if (file == NULL)
     {
@@ -1302,13 +1085,9 @@ void saveProject()
     }
 
 
-    fprintf(file,
-            "EMERGENCY ROUTE PLANNER\n");
+    fprintf(file,"EMERGENCY ROUTE PLANNER\n");
 
-    fprintf(file,
-            "Locations=%d\n",
-            placeCount);
-
+    fprintf(file,"Locations=%d\n",placeCount);
 
     for (i = 0; i < placeCount; i++)
     {
@@ -1358,27 +1137,14 @@ void saveProject()
     printf("\nProject information saved successfully.\n");
 }
 
-
-/* =========================================================
-   DEMONSTRATION DATA
-   ========================================================= */
-
 void loadDemoData()
 {
-    /*
-       Clear current counts.
-    */
-
     placeCount = 0;
     vehicleCount = 0;
     requestCount = 0;
 
     initializeSystem();
 
-
-    /*
-       Locations
-    */
 
     strcpy(places[0].name,
            "Central Junction");
@@ -1433,16 +1199,11 @@ void loadDemoData()
     }
 
 
-    /*
-       Helper-style road creation.
-       Roads are inserted manually here so the
-       demo starts with a known network.
-    */
 
     Road *r;
 
 
-    /* 0 - 1 */
+    
 
     r = malloc(sizeof(Road));
 
@@ -1476,7 +1237,7 @@ void loadDemoData()
     network[1] = r;
 
 
-    /* 0 - 2 */
+  
 
     r = malloc(sizeof(Road));
 
@@ -1508,10 +1269,7 @@ void loadDemoData()
 
     r->next = network[2];
     network[2] = r;
-
-
-    /* 1 - 3 */
-
+  
     r = malloc(sizeof(Road));
 
     r->to = 3;
@@ -1542,9 +1300,6 @@ void loadDemoData()
 
     r->next = network[3];
     network[3] = r;
-
-
-    /* 2 - 4 */
 
     r = malloc(sizeof(Road));
 
@@ -1578,8 +1333,6 @@ void loadDemoData()
     network[4] = r;
 
 
-    /* 3 - 5 */
-
     r = malloc(sizeof(Road));
 
     r->to = 5;
@@ -1612,7 +1365,6 @@ void loadDemoData()
     network[5] = r;
 
 
-    /* 4 - 5 */
 
     r = malloc(sizeof(Road));
 
@@ -1645,10 +1397,6 @@ void loadDemoData()
     r->next = network[5];
     network[5] = r;
 
-
-    /*
-       Demonstration vehicle
-    */
 
     fleet[0].id = 101;
 
@@ -1664,11 +1412,6 @@ void loadDemoData()
 
     printf("\nDemo network loaded successfully.\n");
 }
-
-
-/* =========================================================
-   MENU
-   ========================================================= */
 
 void menu()
 {
@@ -1701,11 +1444,6 @@ void menu()
 
     printf("====================================================\n");
 }
-
-
-/* =========================================================
-   MAIN
-   ========================================================= */
 
 int main()
 {
@@ -1795,6 +1533,5 @@ int main()
                 printf("\nInvalid choice. Please try again.\n");
         }
     }
-
     return 0;
 }
