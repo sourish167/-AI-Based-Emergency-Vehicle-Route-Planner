@@ -3,20 +3,17 @@
 #include <string.h>
 #include <float.h>
 #include <math.h>
-
 #define MAX_NODES 30
 #define MAX_VEHICLES 20
 #define MAX_EMERGENCIES 50
 #define MAX_HEAP 100
 #define TEXT 50
-
 typedef struct
 {
     int id;
     char name[TEXT];
     char type[25];
 } Location;
-
 typedef struct Road
 {
     int to;
@@ -26,7 +23,6 @@ typedef struct Road
     float cost;
     struct Road *next;
 } Road;
-
 typedef struct
 {
     int id;
@@ -34,7 +30,6 @@ typedef struct
     int location;
     int available;
 } Vehicle;
-
 typedef struct
 {
     int id;
@@ -43,28 +38,23 @@ typedef struct
     int destination;
     int priority;
 } Emergency;
-
 typedef struct
 {
     int node;
     float value;
 } HeapItem;
-
 typedef struct
 {
     HeapItem data[MAX_HEAP];
     int size;
 } MinHeap;
-
 Location places[MAX_NODES];
 Road *network[MAX_NODES];
 Vehicle fleet[MAX_VEHICLES];
 Emergency requests[MAX_EMERGENCIES];
-
 int placeCount = 0;
 int vehicleCount = 0;
 int requestCount = 0;
-
 float trainDistance[] ={2, 4, 5, 7, 9, 11, 13, 15, 18, 20, 23, 26};
 float trainTraffic[] ={ 1, 1, 2, 2, 3,2, 3, 4, 2, 4, 3, 4};
 float trainCondition[] ={1, 1, 1, 2, 1, 2, 2, 1, 1, 2, 2, 3};
